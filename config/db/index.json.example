@@ -1,0 +1,4 @@
+{
+  "uri": "sqlite:/home/$USER/.conig/verein/db.sqlite",
+  "logging": false
+}

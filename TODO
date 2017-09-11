@@ -1,0 +1,7 @@
+create default values from config
+
+tests
+
+low prio:
+config - verify that all required config values are set
+

@@ -1,0 +1,31 @@
+{
+  "name": "verein",
+  "version": "0.0.1",
+  "description": "intended to provide a simple infrastructure for cultural communities",
+  "main": "init.js",
+  "dependencies": {
+    "express": "^4.15.4",
+    "fs": "0.0.1-security",
+    "sequelize": "^4.7.5",
+    "sqlite": "^2.8.0",
+    "strict-mode": "^1.1.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/p3732/verein.git"
+  },
+  "keywords": [
+    "community",
+    "management"
+  ],
+  "author": "p3732",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/p3732/verein/issues"
+  },
+  "homepage": "https://github.com/p3732/verein#readme"
+}
