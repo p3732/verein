@@ -6,6 +6,7 @@ const path    = require('path');
 
 /** Routes all definitions made in the given @param file to the given @param route. */
 function routeFile(file, route, router, db) {
+  log("routing " + file + " to " + route);
   var subRouter = require('' + file)(db);
   router.use(route, subRouter);
 }
@@ -28,16 +29,11 @@ function routeRecursive(folder, routePath, router, db) {
         log("entering " + file);
         routeRecursive(currentFile, routePath + file + '/', router, db);
       } else if (file.endsWith(".js")) {
-        log("routing " + file);
         var route;
 
         if (file.toLowerCase() == "index.js") {
           // cut off the '/' of the path, unless it's the whole path
-          if(routePath.lastIndexOf('/') !== routePath.indexOf('/')) {
-            route = routePath.substring(0, routePath.lastIndexOf('/'));
-          } else {
-            route = '/';
-          }
+          route = routePath.substring(0, routePath.lastIndexOf('/'));
         } else {
           // cut off the '.js'
           route = file.substring(0, file.lastIndexOf(".js"));
@@ -55,8 +51,16 @@ router.init = function(router, db) {
   return new Promise(() => {
     log("init routing");
     router.use(favicon(path.join(__dirname, "media", "favicon", "favicon.png")));
-    var folder = path.join(__dirname, "api");
-    routeRecursive(folder, '/', router, db);
+    var apiFolder = path.join(__dirname, "api");
+    var mediaFolder = path.join(__dirname, "media");
+    var staticFolder = path.join(__dirname, "static");
+    log("routing /api");
+    routeRecursive(apiFolder, '/api/', router, db);
+    log("setting up /media");
+    router.use("/media", express.static(mediaFolder));
+    log("setting up /static");
+    router.use('/', express.static(staticFolder));
+
   })
   .then(log("routing set up"))
   .catch(function (err) {
