@@ -1,4 +1,5 @@
 const express = require('express');
+const favicon = require('serve-favicon');
 const fs      = require('fs');
 const log     = require("./logging.js")("router");
 const path    = require('path');
@@ -53,6 +54,7 @@ var router = express();
 router.init = function(router, db) {
   return new Promise(() => {
     log("init routing");
+    router.use(favicon(path.join(__dirname, "media", "favicon", "favicon.png")));
     var folder = path.join(__dirname, "api");
     routeRecursive(folder, '/', router, db);
   })
