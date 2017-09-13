@@ -4,7 +4,7 @@ __verein__ is intended to provide a simple digital infrastructure for cultural c
 Setup steps
 ----------
 1. Install required npm packages
-  $ npm install sequelize sqlite express serve-favicon
+  $ npm install sequelize sqlite express serve-favicon pug
 
 2. Setup configurations in the config folder (just copy the .example,
 remove the ending and enter your desired values).
