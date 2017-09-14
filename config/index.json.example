@@ -1,3 +1,3 @@
 {
-  "mode": "development"
+  "mode": "normal" // avaiilable: normal, development
 }
