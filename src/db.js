@@ -71,7 +71,13 @@ function createAssociations(models) {
     .then(log("loaded associations"));
 }
 
-/** Init function of the db. Returns Promise.*/
+/** Init function of the db. Returns Promise.
+ * 1-establish connection
+ * 2-load models
+ * 3-load associations
+ * 4-sync models
+ * TODO 5-[opt if creating a new db] db initialization with default values
+ */
 this.init = function init(db_conf) {
   this.models = {};
   this.sequelize = new Sequelize(db_conf.uri, {
