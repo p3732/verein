@@ -44,25 +44,57 @@ function routeRecursive(folder, routePath, router, db) {
   log.undent();
 }
 
+function create404(req, res, next) {
+  var err = new Error("Not Found.");
+  err.status = 404;
+  next(err);
+}
+
+function errorHandler(err, req, res, next) {
+  res.status(err.status || 500);
+  res.render("error", {
+    message: err.message,
+     // no stacktraces leaked to user unless in development mode
+    error: developerMode ? err : {}
+  });
+}
+
 var router = express();
+var developerMode = false;
 
 /** Sets up routing. */
-router.init = function(router, db) {
+router.init = function(router, db, mode) {
+  developerMode = (mode == "development" ? true : false);
   return new Promise(() => {
-    log("init routing");
-    router.use(favicon(path.join(__dirname, "media", "favicon", "favicon.png")));
-    var apiFolder = path.join(__dirname, "api");
-    var mediaFolder = path.join(__dirname, "media");
-    var staticFolder = path.join(__dirname, "static");
-    log("routing /api");
+    log("init");
+    // folders
+    const apiFolder    = path.join(__dirname, "api");
+    const pagesFolder  = path.join(__dirname, "pages");
+    const staticFolder = path.join(__dirname, "static");
+    const viewsFolder  = path.join(__dirname, "views");
+
+    // favicon
+    log("setting favicon");
+    router.use(favicon(path.join(staticFolder, "media", "favicon", "favicon.png")));
+
+    // view engine setup
+    log("setting view engine");
+    router.set("views", viewsFolder);
+    router.set("view engine", 'pug');
+
+    // route
+    log("setting up /api");
     routeRecursive(apiFolder, '/api/', router, db);
-    log("setting up /media");
-    router.use("/media", express.static(mediaFolder));
     log("setting up /static");
     router.use('/', express.static(staticFolder));
-
+    log("setting up pages");
+    routeRecursive(pagesFolder, '/', router, db);
+    log("setting up default 404 fallback")
+    router.use(create404);
+    log("setting up error handler");
+    router.use(errorHandler);
+    log("routing set up")
   })
-  .then(log("routing set up"))
   .catch(function (err) {
     log("error occured during routing: " + err);
   });
