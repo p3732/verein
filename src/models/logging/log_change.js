@@ -11,7 +11,7 @@ module.exports = function(sequelize, DataTypes) {
 
   LogChange.associate = function(models) {
     LogChange.hasMany(models.LogChangeEntry);
-    //TODO LogChange.belongsTo(models.Contact, {as: "editor"});
+    LogChange.belongsTo(models.Contact, {as: "editor"});
   }
 
   return LogChange;

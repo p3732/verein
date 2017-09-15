@@ -7,6 +7,8 @@ module.exports = function(sequelize, DataTypes) {
   var ContactMedium = sequelize.define("ContactMedium", {
     type: {type: DataTypes.TEXT, unique: true}
     // (<- n contacts which are reachable via this media; through contact_media_value)
+  }, {
+    timestamps: false,
   });
 
   return ContactMedium;

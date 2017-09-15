@@ -5,6 +5,8 @@ module.exports = function createScheme(sequelize, DataTypes) {
   var ResourceCategory = sequelize.define("ResourceCategory", {
     title: {type: DataTypes.TEXT, allowNull: false, unique: true}
     // <- parent category
+  }, {
+    timestamps: false,
   });
 
   ResourceCategory.associate = function(models) {

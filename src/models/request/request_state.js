@@ -6,7 +6,9 @@ module.exports = function createScheme(sequelize, DataTypes) {
     title: {type: DataTypes.TEXT, allowNull: false, unique: true},
     needsResourceReservation: DataTypes.BOOLEAN,
     needsConfirmation: DataTypes.BOOLEAN
-  }, {timestamps: false});
+  }, {
+    timestamps: false,
+  });
 
   return RequestState;
 }
