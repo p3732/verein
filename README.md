@@ -6,7 +6,7 @@ Setup steps
 1. Install required npm packages
 
   ```
-    $ npm install sequelize sqlite express serve-favicon pug
+    $ npm install sequelize sqlite express serve-favicon pug body-parser
   ```
 
 2. Setup configurations in the config folder
