@@ -1,8 +1,9 @@
-const express = require('express');
-const favicon = require('serve-favicon');
-const fs      = require('fs');
-const log     = require("./logging.js")("router");
-const path    = require('path');
+const bodyParser = require('body-parser');
+const express    = require('express');
+const favicon    = require('serve-favicon');
+const fs         = require('fs');
+const log        = require("./logging.js")("router");
+const path       = require('path');
 
 /** Routes all definitions made in the given @param file to the given @param route. */
 function routeFile(file, route, router, db) {
@@ -81,6 +82,10 @@ router.init = function(router, db, mode) {
     log("setting view engine");
     router.set("views", viewsFolder);
     router.set("view engine", 'pug');
+
+    // body parser
+    router.use(bodyParser.json());
+    router.use(bodyParser.urlencoded({ extended: false }));
 
     // route
     log("setting up /api");
