@@ -11,7 +11,7 @@ Setup steps
 
 2. Setup configurations in the config folder
 
-  - copy the .example file
+  - duplicate the .example file
 
   - remove the .example ending
 
