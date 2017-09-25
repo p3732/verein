@@ -17,7 +17,7 @@ function connect(sequelize) {
 function syncSchemes(sequelize) {
   log("sync db");
   return sequelize
-    .sync({force: true}) // force:true as parameter deletes existing entries in tables
+    .sync() // {force:true} as parameter deletes existing entries in tables
     .then(log("Synced database models."))
     .catch(function (err) {
       log.error("Could not synchronize database: " + err);
