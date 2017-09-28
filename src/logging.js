@@ -25,7 +25,7 @@ module.exports = function(prompt, indent_length) {
   }
 
   log.debug = function(string) {
-    console.error("DEBUG " + pre + string);
+    console.debug("DEBUG " + pre + string);
   }
 
   return log;
