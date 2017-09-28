@@ -1,0 +1,29 @@
+extends ../generic_header
+
+block content
+  h1= title
+
+  h2 Create a new event
+  form(action="/api/event/create", method="post")
+    | title
+    input(type="text", name="title")
+    | description
+    input(type="text", name="description")
+    | publish?
+    input(type="checkbox" name="publish" checked)
+    | start date
+    input(type="date" name="start")
+    | optional end date
+    input(type="date" name="end")
+    input(type="submit", value="Create")
+
+  h2 Existing events
+
+  ul
+  each event in events
+    li
+      a(href="/api/event/" + event.id)= event.title
+      | &nbsp;
+      form(action="/api/event/" + event.id + "/destroy", method="post")
+        input(type="submit", value="Delete")
+
