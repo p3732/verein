@@ -16,7 +16,6 @@ function start() {
   var db     = require("./db.js");
   var router = require("./router.js");
   var server = require("./server.js");
-
   log("starting");
   config.load("./config")
   //.then(log.debug(JSON.stringify(config)))
@@ -31,7 +30,7 @@ function start() {
 
 function modeWarning(mode) {
   if (mode !== "normal") {
-    log("################################### !!! Running in " + mode + " mode !!! ###################################");
+    log("############################## !!! Running in " + mode + " mode !!! ##############################");
   } else {
     log("Running in normal mode.");
   }
