@@ -36,8 +36,8 @@ function routeRecursive(folder, routePath, router, db) {
           // cut off the '/' of the path, unless it's the whole path
           route = routePath.substring(0, routePath.lastIndexOf('/'));
         } else {
-          // cut off the '.js'
-          route = file.substring(0, file.lastIndexOf(".js"));
+          // cut off the '.js' and append to routePath
+          route = routePath + file.substring(0, file.lastIndexOf(".js"));
         }
         routeFile(currentFile, route, router, db);
       } // else ignore
