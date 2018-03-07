@@ -1,0 +1,5 @@
+[ // list of different event types
+  { "title": "Concert" },
+  { "title": "Gathering" },
+  { "title": "other" }
+]

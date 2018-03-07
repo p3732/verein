@@ -1,4 +1,4 @@
 {
-  "uri": "sqlite:/home/$USER/.conig/verein/db.sqlite",
+  "uri": "sqlite:/home/$USER/.config/verein/db.sqlite", // storage of the database file
   "logging": false
 }
