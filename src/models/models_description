@@ -21,12 +21,12 @@ Description of specific models:
     Request MGMT. Bundles everything related to requests.
   resource
     Resource MGMT. Bundles everything related to resources.
-   Structure:
-     ResourceCategory - similar things
-     ↑
-     ResourceGroup    - interchangable things
-     ↑
-     Resource         - fully interchangable things
-     ↑
-     ResourceInstance - one concrete thing
+    Structure:
+      ResourceCategory - similar things (works recursively)
+      ↑
+      ResourceGroup    - interchangable things
+      ↑
+      Resource         - fully interchangable things
+      ↑
+      ResourceInstance - one concrete thing
 
