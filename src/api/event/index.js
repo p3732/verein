@@ -51,7 +51,7 @@ function destroyEvent(req, res) {
       id: req.params.event_id
     }
   })
-  .then(log.debug("deleted "))
+  .then(log.debug("deleted "+ req.params.event_id))
   .then(res.redirect("back"));
 }
 
@@ -75,8 +75,6 @@ module.exports = function(db) {
   router.get("/", getAPIdescription);
   router.post("/", createEvent);
   router.get("/:event_id(\\d+)", getEvent);
-  //TODO router.get("/type", getAPIdescription);
-  // destroy with post instead of get, so simply visiting the url does not accidently destroy element
   router.post("/:event_id/destroy", destroyEvent);
 
   return router;

@@ -1,5 +1,4 @@
 var express = require('express');
-//var log     = require("../../logging.js")("api/event/type");
 
 // globally available variables
 var EventType;
@@ -24,7 +23,6 @@ module.exports = function(db) {
   var router = express.Router();
 
   EventType = db.sequelize.models.EventType;
-
   router.get("/", getAllTypes);
   router.get("/:id", getOneType);
 

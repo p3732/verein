@@ -1,13 +1,14 @@
 var express = require('express');
 
-function getRoot(req, res) {
-  res.send("This is the API. Functionality is yet to come.");
+function getAPIdescription(req, res) {
+  res.render("docs/api/index", {
+      title: "/"
+    })
 }
 
 module.exports = function(db) {
   var router = express.Router();
-
-  router.get('/', getRoot);
+  router.get('/', getAPIdescription);
 
   return router;
 }
