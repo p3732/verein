@@ -1,7 +1,15 @@
-create default values from config
+high prio:
+filter events by time
+display more info for events
+convert publish check to bool in json
 
+
+normal prio:
+create default values from config
+process.env.NODE_ENV
 tests
+/api use rendered views instead of res.send() for API documentation
 
 low prio:
 config - verify that all required config values are set
-
+protect api from being called directly
