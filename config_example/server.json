@@ -1,3 +1,4 @@
 {
-  "port": 9001 // the post you want to bind the server to
+  "_port_comment": "The post you want to bind the server to.",
+  "port": 9001
 }

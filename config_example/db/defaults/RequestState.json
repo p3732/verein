@@ -1,12 +1,16 @@
-[ // listing of all different states a request can have.
-  // needsResourceReservation - whether this request still needs the resources it requires to be reserved.
-  // needsConfirmation - whether this request still needs to be processed.
-  {"title": "requested", "needsResourceReservation": true, "needsConfirmation": true},
-  {"title": "adjourned", "needsResourceReservation": true, "needsConfirmation": true},
-  {"title": "blocked", "needsResourceReservation": false, "needsConfirmation": false},
-  {"title": "changed", "needsResourceReservation": true, "needsConfirmation": true},
-  {"title": "approved", "needsResourceReservation": false, "needsConfirmation": false},
-  {"title": "denied", "needsResourceReservation": false, "needsConfirmation": false},
-  {"title": "withdrawn", "needsResourceReservation": false, "needsConfirmation": false},
-  {"title": "canceled", "needsResourceReservation": false, "needsConfirmation": false}
-]
+{ "description": "List of all different states a request can have.",
+  "parameters": [
+    {"needsResourceReservation": "Whether this request needs a reservation of the resources it requires."},
+    {"needsConfirmation": "Whether this request needs to be processed."}
+  ],
+  "RequestState": [
+    {"title": "requested", "needsResourceReservation": true, "needsConfirmation": true},
+    {"title": "adjourned", "needsResourceReservation": true, "needsConfirmation": true},
+    {"title": "changed", "needsResourceReservation": true, "needsConfirmation": true},
+    {"title": "blocked", "needsResourceReservation": false, "needsConfirmation": false},
+    {"title": "approved", "needsResourceReservation": false, "needsConfirmation": false},
+    {"title": "denied", "needsResourceReservation": false, "needsConfirmation": false},
+    {"title": "withdrawn", "needsResourceReservation": false, "needsConfirmation": false},
+    {"title": "canceled", "needsResourceReservation": false, "needsConfirmation": false}
+  ]
+}

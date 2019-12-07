@@ -1,3 +1,4 @@
 {
-  "mode": "normal" // available: normal, development
+  "mode": "normal",
+  "mode_options": ["normal", "development"]
 }

@@ -1,4 +1,6 @@
 {
-  "uri": "sqlite:/home/$USER/.config/verein/db.sqlite", // storage of the database file
-  "logging": false
+  "_uri_comment": "The path of the database file.",
+  "uri": "sqlite:/home/$USER/.config/verein/db.sqlite",
+  "_logging_comment": "Whether sequelize should display logging output.",
+  "logging": true
 }
