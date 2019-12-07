@@ -1,5 +1,7 @@
 [ // list of different event types
   { "title": "Concert" },
+  { "title": "Film" },
   { "title": "Gathering" },
-  { "title": "other" }
+  { "title": "Party" },
+  { "title": "Other" }
 ]
