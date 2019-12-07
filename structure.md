@@ -1,17 +1,19 @@
 # structure
 ----------
-This file means to give an explanation of how this project is structured.
+This file tries to give an overview of the project's structure.
 
-## config
+## config (_example)
 ----------
-Contains configuration files to setup and tweak __verein__ to users needs.
+Contains configuration files to setup and tweak __verein__ to a user's needs.
 
-To begin setting up a working __verein__ system, you want to copy every file
-ending with .json.example, drop the .example ending of the name and adjust the
-contained values to your needs.
+To begin setting up a working __verein__ system, rename or recursively copy the
+example config folder.
 
-Config files should have enough comments to make them self-explanatory. (In case
-they are not, please open an issue on Github.)
+`cp -R config_example config`
+
+Then adjust all config files in it according to your needs. Config files should
+have enough comments to make them self-explanatory. (In case they are not,
+please open an issue on Github.)
 
 ## src
 ----------
@@ -20,16 +22,18 @@ by users.
 
 For developers however, here is a breakdown:
 
-* api - contains routing information for the API, processed by router.js
-* models - contains all information for the database models, processed by db.js
-* pages - contains routes for sites that the server provides
-* static - contains static content, such as images and css files
-* views - contains actual site skeletons, written in pug, which are parsed dynamically upon calling
+* api - Routing information for the REST API, processed by router.js.
+* models - Information for the database models, processed by db.js.
+* pages - Frontend pages. Their routes are given by folder paths. (router.js)
+* static - Static content, such as images, media and css files.
+* views - Site skeletons for the frontend, written in pug. Parsed dynamically.
 * .js files
-  - config.js - handles reading of all configs in the config folder
-  - db.js - sets up database connection by setting up a sequelize (ORM) instance and recursively creating models from the models folder.
-  - logging.js - simple logger, offers prompt (passed as parameter), indenting, debug and error
-  - router.js - configures express, a node module which is used for routing. Sets up routes for api, pages and static.
-  - server.js - starts the server, using the bindings set up by router.js
-  - verein.js - bundels and calls config.js, db.js, router.js and serve.js
-
+  - config.js - Handles reading of all configs in the config folder.
+  - db.js - Sets up the database connection by setting up a `sequelize` (ORM)
+    instance and recursively creating models from the models folder.
+  - logging.js - Simple logger, offers prompt (passed as parameter), indenting,
+    as well as debug and error levels.
+  - router.js - Configures `express`, a module used for routing. Sets up routes
+    for the API, dynamic pages, static content, favicon and 404 sites.
+  - server.js - Starts the server, using the bindings set up by router.js.
+  - verein.js - Starting point that calls the other .js files in order.
