@@ -15,6 +15,9 @@ Then adjust all config files in it according to your needs. Config files should
 have enough comments to make them self-explanatory. (In case they are not,
 please open an issue on Github.)
 
+Hint for developers: A symlink is handy to avoid copying changed default values.
+`ln -s config_example config`
+
 ## src
 ----------
 Contains source code files and is neither intended, nor required to be modified

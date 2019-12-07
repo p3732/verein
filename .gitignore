@@ -1,5 +1,5 @@
 # configuration files
-config/**/*.json
+config
 
 # database
 db.sqlite
