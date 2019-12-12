@@ -3,7 +3,8 @@
     {"needsResourceReservation": "Whether this request needs a reservation of the resources it requires."},
     {"needsConfirmation": "Whether this request needs to be processed."}
   ],
-  "RequestState": [
+	"selector": { "title": "title" },
+  "default_values": [
     {"title": "requested", "needsResourceReservation": true, "needsConfirmation": true},
     {"title": "adjourned", "needsResourceReservation": true, "needsConfirmation": true},
     {"title": "changed", "needsResourceReservation": true, "needsConfirmation": true},

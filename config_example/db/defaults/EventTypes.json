@@ -1,5 +1,6 @@
 { "description": "List of different event types.",
-	"EventTypes": [
+	"selector": { "title": "title" },
+	"default_values": [
 		{ "title": "Concert" },
 		{ "title": "Film" },
 		{ "title": "Gathering" },
