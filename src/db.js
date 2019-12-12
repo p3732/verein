@@ -4,127 +4,92 @@ const path      = require('path');
 const Sequelize = require('sequelize');
 
 /** Connect to DB. Returns Promise.*/
-function connect(sequelize) {
-  log("connecting to db");
-  return sequelize.authenticate()
-    .then(log("connection has been established successfully"))
-    .catch(function (err) {
-      log.error("Unable to connect to the database: ", err)
-    });
+async function connect(sequelize) {
+  try {
+    log("connecting to db");
+    await sequelize.authenticate();
+    log("connection has been established successfully");
+  } catch (err) {
+    log.error("Unable to connect to the database: ", err);
+    //TODO throw
+  }
 }
 
-/** Load models. Returns Promise.*/
-function loadModels(db) {
-  return new Promise(() => {
+/** Load models. Asynchronous.*/
+async function loadModels(db) {
+  try {
       log("loading models");
       var folder = path.join(__dirname, "models");
       loadModelsRecursive(folder, db);
-    })
-    .then(log("loaded models"))
-    .catch(function (err) {
-      console.error('An error occurred while loading the models:', err);
-    });
+      log("loaded models")
+  } catch(err) {
+    log.error('An error occurred while loading the models:', err);
+    //TODO throw
+  }
 }
 
 /** Loads models recursively from given @param folder and adds them to the @param db. */
 function loadModelsRecursive(folder, db) {
   log.indent();
-  fs.readdirSync(folder)
-    .forEach(function(file) {
-      var currentFile = path.join(folder, file);
+  for (const file of fs.readdirSync(folder)) {
+    var currentFile = path.join(folder, file);
 
-      if (fs.lstatSync(currentFile).isDirectory()) {
-        log("entering " + file);
-        loadModelsRecursive(currentFile, db);
-      } else if (file.endsWith('.js') && file.toLowerCase() !== "index.js") {
-        log("loading  " + file);
-        var model = db.sequelize.import(currentFile);
-        db.models[model.name] = model;
-      } // else ignore
-    });
+    if (fs.lstatSync(currentFile).isDirectory()) {
+      log("entering " + file);
+      loadModelsRecursive(currentFile, db);
+    } else if (file.endsWith('.js') && file.toLowerCase() !== "index.js") {
+      log("loading  " + file);
+      var model = db.sequelize.import(currentFile);
+      db.models[model.name] = model;
+    } // else ignore
+  }
   log.undent();
 }
 
-/** Creates associations for @param models. Returns Promise. */
+/** Creates associations for @param models. */
 function createAssociations(models) {
-  return new Promise(() => {
-      log("loading associations");
-      log.indent();
-      Object.keys(models).forEach(function(modelName) {
-        if ("associate" in models[modelName]) {
-          log("loading for " + modelName);
-          models[modelName].associate(models);
-        }
-      })
-    })
-    .then(log.undent())
-    .then(log("loaded associations"));
-}
-
-/** Create/Sync default values with models. Returns Promise.*/
-function createDefaultValues (models, db_conf) {
-  log("WHEN")
-  var promise = new Promise(() => { log("test") });
-  //return new Promise(() => {
-
-    if (db_conf.defaults) {
-      db_conf.defaults.RequestState.forEach(function(a){log(JSON.stringify(a))})
-      db_conf.defaults.RequestState.forEach(function(a){
-        promise = promise.then(function() {
-          models.RequestState.findOrCreate(a);
-        })
-      })
-      return promise
-      /*
-      Object.keys(db_conf.defaults).forEach(function(modelClass) {
-        log("modelclass: " + modelClass);
-        log.indent();
-        Object.keys(db_conf.defaults[modelClass]).forEach(function(model) {
-          log("loading defaults for " + model);
-          Object.keys(db_conf.defaults[modelClass][model]).forEach(function(default_value) {
-            log(JSON.stringify(default_value));
-            models[model].create({ where: db_conf.defaults[modelClass][model][default_value]});
-          })
-        });
-        log.undent();
-      });
-      */
-      /*
-      Object.keys(db_conf.defaults).forEach(function(modelClass) {
-        log("modelclass: " + modelClass);
-        log.indent();
-        Object.keys(db_conf.defaults[modelClass]).forEach(function(model) {
-          log("loading defaults for " + model);
-          Object.keys(db_conf.defaults[modelClass][model]).forEach(function(default_value) {
-            log(JSON.stringify(default_value));
-            models[model].create({ where: db_conf.defaults[modelClass][model][default_value]});
-          })
-        });
-        log.undent();
-      });
-*/
-    } else {
-      log.warn("no defaults for any model defined!");
+  log("loading associations");
+  log.indent();
+  for (const model_name of Object.keys(models)) {
+    if ("associate" in models[model_name]) {
+      log("loading for " + model_name);
+      models[model_name].associate(models);
     }
-
-    return promise
-      .catch(function (err) {
-        log.error("oh no");
-        log(err)
-      });
-  //})
+  }
+  log.undent();
+  log("loaded associations");
 }
 
+/** Create/Sync default values with models. Asynchronous.*/
+async function createDefaultValues (models, db_conf) {
+  if (!db_conf.defaults) {
+    log.warn("no defaults for any model defined!");
+  } else {
+    log("loading default values");
+    log.indent();
+    for (var model_name in db_conf.defaults) {
+      log("loading default values of " + model_name);
+      var model = db_conf.defaults[model_name];
+      for (var default_value of model.default_values) {
+        default_value.where = model.selector
+        await models.RequestState.findOrCreate(default_value);
+      }
+    }
+    log.undent();
+    log("loaded default values");
+  }
+}
 
-/** Sync models. Returns Promise.*/
-function syncSchemes(sequelize) {
-  log("sync db");
-  return sequelize
-    .sync() // {force:true} as parameter deletes existing entries in tables
-    .then(log("synced database models."))
-    .catch(function (err) {
-      log.error("Could not synchronize database: " + err);
-    });
+/** Sync models. Asynchronous.*/
+async function syncSchemes(sequelize) {
+  try {
+    log("syncing models");
+    await sequelize.sync(); // {force:true} //force deletes existing entries
+    log("models synced.");
+  } catch(err) {
+    log.error("Could not synchronize database: " + err);
+    //TODO throw
+  };
 }
 
 /** Init function of the db. Returns Promise.
@@ -134,17 +99,19 @@ function syncSchemes(sequelize) {
  * TODO -[opt if creating a new db] db initialization with default values
  * -sync models
  */
-this.init = function init(db_conf) {
+this.init = async function init(db_conf) {
   this.models = {};
+  //TODO just pass all parameters on for sequelize
+  log(db_conf.uri)
   this.sequelize = new Sequelize(db_conf.uri, {
-    logging: db_conf.logging
+    logging: db_conf.logging ? log : false
   });
 
-  return connect(this.sequelize)
-    .then(loadModels(this))
-    .then(createAssociations(this.models))
-    .then(syncSchemes(this.sequelize))
-    .then(createDefaultValues(this.models, db_conf));
+  await connect(this.sequelize);
+  loadModels(this);
+  createAssociations(this.models);
+  await syncSchemes(this.sequelize);
+  await createDefaultValues(this.models, db_conf);
 }
 
 module.exports = this;
