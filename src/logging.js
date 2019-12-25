@@ -4,7 +4,7 @@ module.exports = function(prompt, indent_length) {
   var indent_string = String(" ").repeat(length);
   var indention = "";
 
-  var pre = (prompt ? prompt : "log") + " - ";
+  var pre = (prompt ? prompt : "log") + " | ";
 
   var log = function(string) {
     console.log(pre + indention + string)
