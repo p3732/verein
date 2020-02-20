@@ -1,57 +1,64 @@
-const fs   = require('fs');
-const log  = require("./logging.js")("config");
-const path = require('path');
+require('hjson/lib/require-config')
+
+const fs = require('fs')
+const log = require('./logging.js')('config', 6)
+const path = require('path')
 
 /** Reads config in given @param file. (readability wrapper) */
-function readConfig(file) {
-  var newConfig = require(file);
-  return newConfig;
+function readConfig (file) {
+  var newConfig = require(file)
+  return newConfig
 }
 
 /** Adds a config @param subConfig to a @param parentConfig by setting it as a property called @param name. */
-function addSubConfig(subConfig, parentConfig, name) {
-  parentConfig[name] = subConfig;
+function addSubConfig (subConfig, parentConfig, name) {
+  parentConfig[name] = subConfig
 }
 
 /** Recursively reads through @param currentFolder. Merges all config files into one config object which is returned. */
-function readConfigsRecursive(currentFolder, config) {
-  log.indent();
-  // use either given config or (if not given) an empty config
-  var currentConfig = config || {};
+function readConfigsRecursive (currentFolder) {
+  var currentConfig = {}
 
-  fs.readdirSync(currentFolder).forEach(function (file) {
-    var currentFile = path.join(currentFolder, file);
+  log.indent()
+
+  fs.readdirSync(currentFolder).forEach(function (filename) {
+    var currentFile = path.join(currentFolder, filename)
 
     if (fs.lstatSync(currentFile).isDirectory()) {
-      log("entering   " + currentFile);
-      var subConfig = readConfigsRecursive(currentFile);
-      addSubConfig(subConfig, currentConfig, file);
-    } else if (file.endsWith('.json')) {
-      log("processing " + currentFile);
-      if (file.toLowerCase() == "index.json") {
-        var subConfig = readConfig(currentFolder);
-        // no wrapping needed, will be done by outer recursion
-        currentConfig = Object.assign(currentConfig, subConfig);
+      log('entering   ' + currentFile)
+      const subConfig = readConfigsRecursive(currentFile)
+      addSubConfig(subConfig, currentConfig, filename)
+    } else if (filename.endsWith('.hjson')) {
+      log('processing ' + currentFile)
+      const subConfig = readConfig(currentFile)
+      if (filename.toLowerCase() === 'index.hjson') {
+        currentConfig = Object.assign(currentConfig, subConfig)
       } else {
-        file = file.substring(0, file.lastIndexOf('.json'));
-        var subConfig = readConfig(currentFile);
-        addSubConfig(subConfig, currentConfig, file);
+        var extentionless = filename.substring(0, filename.lastIndexOf('.hjson'))
+        addSubConfig(subConfig, currentConfig, extentionless)
       }
     } // else ignore
-  });
+  })
 
-  log.undent();
-  return currentConfig;
+  log.undent()
+  return currentConfig
+}
+
+/** Load main config file from @param configPath and set logging level. */
+function setLogging (configPath) {
+  const file = path.join(configPath, 'index')
+  const tmpConfig = require(file)
+  log.setLevel(tmpConfig.logging)
 }
 
 /** Initiates loading of config files from  */
-this.load = function load(folder) {
-  return new Promise(() => {
-    var configPath = path.resolve(folder);
-    log("loading " + configPath);
-    readConfigsRecursive(configPath, this);
-    log("configs loaded");
-  })
+function load (folder) {
+  var configPath = path.resolve(folder)
+  setLogging(configPath)
+  log('loading ' + configPath)
+  const config = readConfigsRecursive(configPath)
+  log.info('loaded config')
+  return config
 }
 
-module.exports = this;
+module.exports = load
