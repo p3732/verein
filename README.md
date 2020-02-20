@@ -1,24 +1,35 @@
 # verein
-__verein__ is intended to provide a simple digital infrastructure for cultural communities.
+__Verein__ intends to provide a simple digital infrastructure for cultural communities.
+
+
 
 Setup steps
-----------
-1. Install required npm packages
+-----------
+1. Clone repository
 
-  ```
-    $ npm install sequelize sqlite express serve-favicon pug body-parser
-  ```
+    `git clone https://github.com/p3732/verein.git`
 
-2. Setup configurations in the config folder
+2. Install required npm packages
 
-  - duplicate the .example file
+    ```
+      cd verein
+      npm install .
+    ```
 
-  - remove the .example ending
+3. Setup configuration
 
-  - enter your desired values and remove all comments
+    `cp -R config_example config`
 
-3. Start the server with
+    These can be changed to fit your intended usage. The config files should
+    have enough comments to make them self-explanatory. (In case they are not,
+    please open an issue.)
 
-  ```
-    $ node init
-  ```
+    Hint for developers:
+    A symlink is handy to avoid copying changed default values.
+
+    `ln -s config_example config`
+
+4. Start the server
+
+    `node init`
+
