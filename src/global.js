@@ -7,7 +7,6 @@ async function init (config) {
     global.logging = config.logging
   }
   global.developerMode = process.env.NODE_ENV !== 'production'
-  global.taxes = config.taxes
 
   log('initialized global variables')
 }
