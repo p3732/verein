@@ -1,0 +1,20 @@
+{
+  // Available options for mode: production, development
+  mode: development
+  // Set logging level. Available options: debug, info, warn, error, fatal
+  logging: info
+
+  server: {
+    // The port the server should be bound to.
+    port: 3231
+    // Which address to bind the server to. Available options: localhost, ip
+    bind_method: ip
+  }
+
+  db: {
+    // The path of the database file.
+    uri: sqlite:db.sqlite
+    // Whether sequelize should display logging output. (boolean)
+    logging: false
+  }
+}

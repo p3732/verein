@@ -1,0 +1,20 @@
+{ /** List of all different states a request can have.
+    Parameters
+      needsResourceReservation
+        Whether this request needs a reservation of the resources it requires.
+      needsConfirmation
+        Whether this request needs to be processed.
+  */
+  selectors: [ 'title' ]
+  values: [
+    { title: 'requested' needsResourceReservation: true,  needsConfirmation: true}
+    { title: 'adjourned' needsResourceReservation: true,  needsConfirmation: true}
+    { title: 'changed'   needsResourceReservation: true,  needsConfirmation: true}
+    { title: 'blocked'   needsResourceReservation: false, needsConfirmation: false}
+    { title: 'approved'  needsResourceReservation: false, needsConfirmation: false}
+    { title: 'denied'    needsResourceReservation: false, needsConfirmation: false}
+    { title: 'withdrawn' needsResourceReservation: false, needsConfirmation: false}
+    { title: 'canceled'  needsResourceReservation: false, needsConfirmation: false}
+    { title: 'archived'  needsResourceReservation: false, needsConfirmation: false}
+  ]
+}

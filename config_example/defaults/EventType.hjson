@@ -1,0 +1,10 @@
+{ /** List of different event types. */
+  selectors: [ 'title' ]
+  values: [
+    { title: 'Concert' }
+    { title: 'Film' }
+    { title: 'Gathering' }
+    { title: 'Party' }
+    { title: 'Other' }
+  ]
+}
