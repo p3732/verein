@@ -3,7 +3,9 @@ module.exports = function (sequelize, DataTypes) {
    * A group of contacts that somehow belong together.
    */
   var ContactGroup = sequelize.define('ContactGroup', {
-    name: { type: DataTypes.TEXT, allowNull: false, unique: true }
+    name: {
+      type: DataTypes.TEXT, allowNull: false, unique: true, primaryKey: true
+    }
 
     //  out 1 information
     // (#in n members)
@@ -13,7 +15,7 @@ module.exports = function (sequelize, DataTypes) {
   })
 
   ContactGroup.associate = function (models) {
-    ContactGroup.belongsTo(models.ContactInformation, { as: 'information' })
+    ContactGroup.belongsTo(models.Contact, { as: 'information' })
     ContactGroup.belongsToMany(models.ContactGroup, {
       through: 'ContactGroupLayering', as: 'supergroup'
     })
