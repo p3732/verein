@@ -9,8 +9,7 @@ async function connect (db) {
     log('connecting to db')
     await db.authenticate()
   } catch (err) {
-    log.error('Unable to connect to the database: ', err)
-    // TODO throw
+    throw new Error('Unable to connect to the database: ' + err)
   }
 }
 
@@ -23,8 +22,7 @@ async function loadModels (db) {
     models = await loadModelsRecursive(folder, db, models)
     return models
   } catch (err) {
-    log.error('An error occurred while loading the models:', err)
-    // TODO throw
+    throw new Error('An error occurred while loading the models: ' + err)
   }
 }
 
@@ -37,7 +35,7 @@ async function loadModelsRecursive (folder, db, models) {
 
     if (fs.lstatSync(currentFile).isDirectory()) {
       log('entering ' + file)
-      models = loadModelsRecursive(currentFile, db, models)
+      models = await loadModelsRecursive(currentFile, db, models)
     } else if (file.endsWith('.js')) {
       log('loading  ' + file)
       var model = await db.import(currentFile)
@@ -88,8 +86,7 @@ async function syncSchemes (sequelize) {
     log('syncing models')
     await sequelize.sync({ force: true }) // {force:true} //force deletes existing entries
   } catch (err) {
-    log.error('Could not synchronize database: ' + err)
-    // TODO throw
+    throw new Error('Could not synchronize database: ' + err)
   };
 }
 
