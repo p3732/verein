@@ -24,7 +24,7 @@ async function start () {
   await initGlobal(config)
   setMode(config.mode)
   const db = await initDB(config)
-  const router = await initRouter(config, db)
+  const router = await initRouter(db)
   try {
     runServer(config.server, router)
   } catch (err) {

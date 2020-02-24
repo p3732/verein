@@ -6,9 +6,9 @@ const log = require('./logging.js')('router', 6)
 const path = require('path')
 
 /** Routes all definitions made in the given @param file to the given @param route. */
-function routeFile (file, route, router, config, db) {
+function routeFile (file, route, router, db) {
   log('routing ' + file + ' to ' + route)
-  const subRouter = require('' + file)(config, db)
+  const subRouter = require('' + file)(db)
   router.use(route, subRouter)
 }
 
@@ -20,7 +20,7 @@ function routeFile (file, route, router, config, db) {
  * contacts/groups.js will be mapped to /contacts/groups
  * @param currentFolder the folder currently in
  */
-function routeRecursive (folder, routePath, router, config, db) {
+function routeRecursive (folder, routePath, router, db) {
   log.indent()
   fs.readdirSync(folder)
     .forEach(function (file) {
@@ -28,7 +28,7 @@ function routeRecursive (folder, routePath, router, config, db) {
 
       if (fs.lstatSync(currentFile).isDirectory()) {
         log('entering ' + file)
-        routeRecursive(currentFile, routePath + file + '/', router, config, db)
+        routeRecursive(currentFile, routePath + file + '/', router, db)
       } else if (file.endsWith('.js')) {
         var route
 
@@ -40,7 +40,7 @@ function routeRecursive (folder, routePath, router, config, db) {
           // cut off the '.js' and append to routePath
           route = routePath + file.substring(0, file.lastIndexOf('.js'))
         }
-        routeFile(currentFile, route, router, config, db)
+        routeFile(currentFile, route, router, db)
       } // else ignore
     })
   log.undent()
@@ -62,7 +62,7 @@ function errorHandler (err, req, res, next) {
 }
 
 /** Sets up routing. */
-function init (config, db) {
+function init (db) {
   const router = express()
 
   try {
@@ -87,11 +87,11 @@ function init (config, db) {
 
     // route
     log('setting up /api')
-    routeRecursive(apiFolder, '/api/', router, config, db)
+    routeRecursive(apiFolder, '/api/', router, db)
     log('setting up static content')
     router.use('/', express.static(staticFolder))
     log('setting up pages')
-    routeRecursive(pagesFolder, '/', router, config, db)
+    routeRecursive(pagesFolder, '/', router, db)
     log('setting up default 404 fallback')
     router.use(create404)
     log('setting up error handler')
