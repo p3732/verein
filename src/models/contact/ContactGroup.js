@@ -1,28 +1,23 @@
-module.exports = function(sequelize, DataTypes) {
+module.exports = function (sequelize, DataTypes) {
   /**
    * A group of contacts that somehow belong together.
    */
-  var ContactGroup = sequelize.define("ContactGroup", {
-    name: {type: DataTypes.TEXT, allowNull: false, unique: true},
-    description: DataTypes.TEXT,
-    website: DataTypes.TEXT,
+  var ContactGroup = sequelize.define('ContactGroup', {
+    name: { type: DataTypes.TEXT, allowNull: false, unique: true }
 
-    email: DataTypes.TEXT, // e.g. mailing list or standard contact address
-    phone: DataTypes.TEXT,
-    fax: DataTypes.TEXT,
+    //  out 1 information
+    // (#in n members)
+    // #out n supergroups
+    // (#in n subgroups)
+    // (out 1 department)
+  })
 
-    comment: DataTypes.TEXT
-
-    // -> m members
-    // <- 1 address
-    // (<- 1 department)
-  });
-
-  ContactGroup.associate = function(models) {
-    ContactGroup.belongsTo(models.ContactAddress);
-    ContactGroup.belongsToMany(models.Contact, {through: "ContactGroupContact", as: "subgroup"});
-    ContactGroup.belongsToMany(models.Contact, {through: "ContactGroupContact", as: "supergroup"});
+  ContactGroup.associate = function (models) {
+    ContactGroup.belongsTo(models.ContactInformation, { as: 'information' })
+    ContactGroup.belongsToMany(models.ContactGroup, {
+      through: 'ContactGroupLayering', as: 'supergroup'
+    })
   }
 
-  return ContactGroup;
+  return ContactGroup
 }

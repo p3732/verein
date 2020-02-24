@@ -1,16 +1,17 @@
-module.exports = function(sequelize, DataTypes) {
+module.exports = function (sequelize, DataTypes) {
   /**
    * Bundles contact groups that belong together.
    */
-  var ContactDepartment = sequelize.define("ContactDepartment", {
-    name: {type: DataTypes.TEXT, allowNull: false, unique: true},
+  var ContactDepartment = sequelize.define('ContactDepartment', {
+    name: { type: DataTypes.TEXT, allowNull: false, unique: true },
     description: DataTypes.TEXT
-    // -> n groups
-  });
 
-  ContactDepartment.associate = function(models) {
-    ContactDepartment.hasMany(models.ContactGroup);
+    // in n groups
+  })
+
+  ContactDepartment.associate = function (models) {
+    ContactDepartment.hasMany(models.ContactGroup, { as: 'groups' })
   }
 
-  return ContactDepartment;
+  return ContactDepartment
 }
