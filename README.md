@@ -1,10 +1,11 @@
-# verein
+Verein
+======
 __Verein__ intends to provide a simple digital infrastructure for cultural communities.
 
 
 
 Setup steps
------------
+===========
 1. Clone repository
 
     `git clone https://github.com/p3732/verein.git`
