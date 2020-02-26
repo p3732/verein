@@ -8,12 +8,8 @@ module.exports = function (sequelize, DataTypes) {
     },
     description: DataTypes.TEXT
 
-    // in n groups
+    // (in n groups)
   })
-
-  ContactDepartment.associate = function (models) {
-    ContactDepartment.hasMany(models.ContactGroup, { as: 'groups' })
-  }
 
   return ContactDepartment
 }

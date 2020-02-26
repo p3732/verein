@@ -13,10 +13,12 @@ module.exports = function (sequelize, DataTypes) {
     },
     ldap: { type: DataTypes.BOOLEAN, allowNull: false },
     passwordHash: DataTypes.TEXT
+
+    // out 1 contact
   })
 
   ContactLogin.associate = function (models) {
-    ContactLogin.belongsTo(models.Contact, { as: 'contact' })
+    ContactLogin.belongsTo(models.Contact, { as: 'contact', allowNull: false })
   }
 
   return ContactLogin

@@ -30,12 +30,13 @@ module.exports = function (sequelize, DataTypes) {
     // for member listing section
     webDescription: DataTypes.TEXT
 
-    // #out n groups
+    // (in 1 login)
+    // # groups
   })
 
   Contact.associate = function (models) {
     Contact.belongsToMany(models.ContactGroup, {
-      through: 'ContactToGroup', as: 'group'
+      through: 'ContactToGroup', as: 'groups', allowNull: false
     })
   }
 
