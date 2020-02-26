@@ -3,16 +3,18 @@ module.exports = function createScheme (sequelize, DataTypes) {
    * Person who's taking care of a request. Needs confirmation.
    */
   var RequestManager = sequelize.define('RequestManager', {
-    confirmed: DataTypes.BOOLEAN
+    confirmed: {
+      type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false
+    }
 
-    // out 1 role
+    // out role
     // used as #
-    //   out 1 request
-    //   out 1 person
+    //   out request
+    //   out person
   })
 
   RequestManager.associate = function (models) {
-    RequestManager.belongsTo(models.RequestManagerRole, {as: 'role'})
+    RequestManager.belongsTo(models.RequestManagerRole, { as: 'role' })
   }
 
   return RequestManager

@@ -8,6 +8,8 @@ module.exports = function createScheme (sequelize, DataTypes) {
     },
     needsResourceReservation: DataTypes.BOOLEAN,
     needsConfirmation: DataTypes.BOOLEAN
+
+    // (in n requests)
   }, {
     timestamps: false
   })

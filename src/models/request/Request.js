@@ -8,10 +8,11 @@ module.exports = function createScheme (sequelize, DataTypes) {
     dateRequested: { type: DataTypes.DATE, allowNull: false }
 
     // (in n reservations)
-    // out 1 state
-    // out 1 organizer
-    // out 1 organisation
-    // out 1 acceptedBy (person who allowed request creation)
+    // (in n events)
+    // out state
+    // out organizer
+    // out organisation
+    // out acceptedBy (person who allowed request creation)
     // # managers (people taking care of request)
   })
 

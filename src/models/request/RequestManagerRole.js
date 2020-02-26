@@ -4,7 +4,9 @@ module.exports = function createScheme (sequelize, DataTypes) {
    * request to request manager
    */
   var RequestManagerRole = sequelize.define('RequestManagerRole', {
-    title: { type: DataTypes.TEXT, unique: true, primaryKey: true }
+    title: {
+      type: DataTypes.TEXT, unique: true, primaryKey: true, allowNull: false
+    }
 
     // (in n request managers)
   }, {

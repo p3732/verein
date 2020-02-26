@@ -5,13 +5,15 @@ module.exports = function createScheme (sequelize, DataTypes) {
    * request.
    */
   var Reservation = sequelize.define('Reservation', {
-    handoutDate: DataTypes.DATE,
-    redeemingDate: DataTypes.DATE,
+    handoutDate: { type: DataTypes.DATE, allowNull: false },
+    redeemingDate: { type: DataTypes.DATE, allowNull: false },
 
     // if not confirmed, another request within the same time can be made
-    confirmed: DataTypes.BOOLEAN
+    confirmed: {
+      type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false
+    }
 
-    // out 1 request
+    // out request
     // # resources
   })
 
