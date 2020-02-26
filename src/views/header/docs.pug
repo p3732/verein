@@ -1,8 +1,11 @@
-extends ../header
+extends generic
 
-block doc
+block css
+  link(rel='stylesheet', href='/css/docs.css')
+
+
+block content
   h1 API for #{title}
 
   p The following functionality is currently supported:
   block api
-
