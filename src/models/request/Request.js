@@ -1,27 +1,27 @@
-module.exports = function createScheme(sequelize, DataTypes) {
+module.exports = function createScheme (sequelize, DataTypes) {
   /**
    * A request for an event or resources.
    * Needs a date and a person in charge of it.
    */
-  var Request = sequelize.define("Request", {
+  var Request = sequelize.define('Request', {
     // date request was created
-    requestDate: {type: DataTypes.DATE, allowNull: false}
-    // (-> n resources)
-    // -> n managers (people taking care of request) through manager role
-    // <- 1 state
-    // <- n organizer
-    // <- 1 organisation
-    // <- 1 acceptedBy (person who allowed request creation)
-    // <- 1 log
-  });
+    dateRequested: { type: DataTypes.DATE, allowNull: false }
 
-  Request.associate = function(models) {
-    Request.belongsTo(models.RequestState, {as: "state"});
-    Request.belongsTo(models.Contact, {as: "organizer"});
-    Request.belongsTo(models.ContactGroup, {as: "organisation"});
-    Request.belongsTo(models.Contact, {as: "acceptedBy"});
-    Request.belongsTo(models.Log);
-  };
+    // (in n reservations)
+    // out 1 state
+    // out 1 organizer
+    // out 1 organisation
+    // out 1 acceptedBy (person who allowed request creation)
+    // # managers (people taking care of request)
+  })
 
-  return Request;
+  Request.associate = function (models) {
+    Request.belongsTo(models.RequestState, { as: 'state', allowNull: false })
+    Request.belongsTo(models.Contact, { as: 'organizer', allowNull: false })
+    Request.belongsTo(models.ContactGroup, { as: 'organisation', allowNull: false })
+    Request.belongsTo(models.Contact, { as: 'acceptedBy' }) // TODO allowNull: false ?
+    Request.belongsToMany(models.Contact, { through: 'RequestManager', as: 'managers' })
+  }
+
+  return Request
 }
