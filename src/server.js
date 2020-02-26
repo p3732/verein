@@ -1,5 +1,5 @@
 const http = require('http')
-const ip   = require('ip');
+const ip = require('ip')
 const log = require('./logging.js')('server', 6)
 
 /** Starts the server and binds it to the port. */
@@ -11,13 +11,13 @@ function run (conf, router) {
 
   log('starting')
   if (conf.bind_method === 'ip') {
-    let address = ip.address();
-    server.listen(port, address);
+    const address = ip.address()
+    server.listen(port, address)
   } else if (conf.bind_method === 'localhost') {
-    server.listen(port);
+    server.listen(port)
   } else {
     log.warn('no bind method defined, falling back to localhost')
-    server.listen(port);
+    server.listen(port)
   }
 
   server.on('listening', function onListening () {
