@@ -10,8 +10,8 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.BOOLEAN, allowNull: false
     }
 
-    // out 1 groupInformation
-    // out 1 department
+    // out groupInformation
+    // out department
     // # members
     // # supergroups
     // # subgroups

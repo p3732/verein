@@ -14,7 +14,7 @@ module.exports = function (sequelize, DataTypes) {
     ldap: { type: DataTypes.BOOLEAN, allowNull: false },
     passwordHash: DataTypes.TEXT
 
-    // out 1 contact
+    // out contact
   })
 
   ContactLogin.associate = function (models) {
