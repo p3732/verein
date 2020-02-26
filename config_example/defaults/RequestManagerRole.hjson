@@ -1,0 +1,13 @@
+{ /** List of all different manager roles. */
+  selectors: [ 'title' ]
+  values: [
+    { title: 'main' }
+    { title: 'additional' }
+    { title: 'booking' }
+    { title: 'catering' }
+    { title: 'lightflasher' }
+    { title: 'mixmaster' }
+    { title: 'technician' }
+    { title: 'other' }
+  ]
+}
