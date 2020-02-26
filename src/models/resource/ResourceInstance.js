@@ -1,13 +1,17 @@
-module.exports = function createScheme(sequelize, DataTypes) {
+module.exports = function createScheme (sequelize, DataTypes) {
   /**
    * One concrete thing. Can find out when it''s rented and when not.
    */
-  var ResourceInstance = sequelize.define("ResourceInstance", {
-    serialNumber: {type: DataTypes.TEXT, unique: true},
-    // (-> n rent dates)
-    // (-> n issue)
-    // (<- 1 resource)
-  });
+  var ResourceInstance = sequelize.define('ResourceInstance', {
+    serialNumber: { type: DataTypes.TEXT, unique: true }
 
-  return ResourceInstance;
+    // (in n issues)
+    // out 1 resource
+  })
+
+  ResourceInstance.associate = function (models) {
+    ResourceInstance.belongsTo(models.Resource, { allowNull: false })
+  }
+
+  return ResourceInstance
 }
