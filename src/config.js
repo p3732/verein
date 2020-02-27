@@ -25,11 +25,11 @@ function readConfigsRecursive (currentFolder) {
     var currentFile = path.join(currentFolder, filename)
 
     if (fs.lstatSync(currentFile).isDirectory()) {
-      log('entering   ' + currentFile)
+      log('entering ' + filename)
       const subConfig = readConfigsRecursive(currentFile)
       addSubConfig(subConfig, currentConfig, filename)
     } else if (filename.endsWith('.hjson')) {
-      log('processing ' + currentFile)
+      log('processing ' + filename)
       const subConfig = readConfig(currentFile)
       if (filename.toLowerCase() === 'index.hjson') {
         currentConfig = Object.assign(currentConfig, subConfig)

@@ -1,10 +1,10 @@
-const express = require('express');
-const log     = require("../../logging.js")("/event/");
+const express = require('express')
+const log = require('../../logging.js')('/event', 6)
 
-var Event;
-var EventDate;
+var Event
+var EventDate
 
-function getAllEvents(req, res) {
+function getAllEvents (req, res) {
   /*
   // TODO parse request
   //log(JSON.stringify(req.query));
@@ -12,21 +12,21 @@ function getAllEvents(req, res) {
   var start = Date.now();
   var end = start + aproximatelyOneMonth;
   */
-  log("all events")
+  log('all events')
   Event.findAll({
     attributes: ['id', 'publish', 'title']
   })
-  .then(function(events) {
-    return res.render("event/add_event", {
-      title: "Existing events",
-      events: events
+    .then(function (events) {
+      return res.render('event/add_event', {
+        title: 'Existing events',
+        events: events
+      })
     })
-  })
-  //.then(res.redirect('/event'))
-  .catch(function (err) {
-    log.error(err);
-    throw err;
-  });
+  // .then(res.redirect('/event'))
+    .catch(function (err) {
+      log.error(err)
+      throw err
+    })
 
   /*
   getEventDatesBetween(start, end)
@@ -36,12 +36,12 @@ function getAllEvents(req, res) {
   */
 }
 
-module.exports = function(db) {
-  Event = db.models.Event;
-  EventDate = db.models.EventDate;
+module.exports = function (db) {
+  Event = db.models.Event
+  EventDate = db.models.EventDate
 
-  var router = express.Router();
-  router.get('/', getAllEvents);
+  var router = express.Router()
+  router.get('/', getAllEvents)
 
-  return router;
+  return router
 }

@@ -1,29 +1,35 @@
-extends ../generic_header
+extends ../header/generic
 
 block content
   h1= title
 
   h2 Create a new event
-  form(action="/api/event", method="post")
+  form(action='/api/event', method='post')
     | title
-    input(type="text", name="title")
+    input(type='text', name='title')
+    br
     | description
-    input(type="text", name="description")
+    input(type='text', name='description')
+    br
     | publish?
-    input(type="checkbox" name="publish" checked)
+    input(type='checkbox' name='publish' checked)
+    br
     | start date
-    input(type="date" name="start")
+    input(type='date' name='start')
+    br
     | optional end date
-    input(type="date" name="end")
-    input(type="submit", value="Create")
+    input(type='date' name='end')
+    br
+    input(type='submit', value='Create')
 
   h2 Existing events
 
   ul
   each event in events
+    - console.log('pug ' + JSON.stringify(event))
     li
-      a(href="/api/event/" + event.id)= event.title
-      | &nbsp;
-      form(action="/api/event/" + event.id + "/destroy", method="post")
-        input(type="submit", value="Delete")
+      a(href='/api/event/' + event.id)= event.title
+      button(class='deleteButton')
+        | Delete
+
 

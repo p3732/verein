@@ -1,14 +1,14 @@
-var express = require('express');
+const express = require('express')
 
-function getAPIdescription(req, res) {
-  res.render("docs/api/index", {
-      title: "/"
-    })
+function getAPIdescription (req, res) {
+  res.render('docs/api/index', {
+    title: '/'
+  })
 }
 
-module.exports = function(db) {
-  var router = express.Router();
-  router.get('/', getAPIdescription);
+module.exports = function (db) {
+  var router = express.Router()
+  router.get('/', getAPIdescription)
 
-  return router;
+  return router
 }

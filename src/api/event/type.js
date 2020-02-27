@@ -1,30 +1,29 @@
-var express = require('express');
+const express = require('express')
 
-// globally available variables
-var EventType;
+var EventType
 
-function getOneType(req, res) {
+function getAll (req, res) {
+  EventType.findAll()
+    .then((data) => {
+      res.send(data)
+    })
+}
+
+function getByID (req, res) {
   EventType.findOne({
     where: req.params
   })
-  .then((data) => {
-    res.send(data);
-  });
+    .then((data) => {
+      res.send(data)
+    })
 }
 
-function getAllTypes(req, res) {
-  EventType.findAll()
-  .then((data) => {
-    res.send(data);
-  });
-}
+module.exports = function (db) {
+  var router = express.Router()
 
-module.exports = function(db) {
-  var router = express.Router();
+  EventType = db.models.EventType
+  router.get('/', getAll)
+  router.get('/:id', getByID)
 
-  EventType = db.sequelize.models.EventType;
-  router.get("/", getAllTypes);
-  router.get("/:id", getOneType);
-
-  return router;
+  return router
 }

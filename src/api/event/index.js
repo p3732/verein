@@ -1,81 +1,99 @@
-var express = require('express');
-var log     = require("../../logging.js")("api/event");
+const express = require('express')
+const log = require('../../logging.js')('api', 6)
 
-// globally available variables
-var Event;
-var EventDate;
+var Event
+var EventDate
 
-function getAPIdescription(req, res) {
-  res.render("docs/api/event", {
-      title: "/event/"
-    })
-}
-
-function createEventDate(start, end, event_id) {
-  return EventDate.create({
-    start: start,
-    end: end,
-    EventId: event_id
+function getAPIdescription (req, res) {
+  res.render('docs/api/event', {
+    title: '/event/'
   })
 }
 
-function createEvent(req, res) {
-  var now = Date.now();
-  log(JSON.stringify(req.body));
+function createEventDate (start, end, eventID) {
+  return EventDate.create({
+    start: start,
+    end: end,
+    EventId: eventID
+  })
+}
+
+function createEvent (req, res) {
+  var now = Date.now()
+  log(JSON.stringify(req.body))
   // end date is optional
-  if(!req.body.end) {
+  if (!req.body.end) {
     req.body.end = req.body.start
   }
-  log("CREATE: publish: "+ req.body.publish +
-      " title: " + req.body.title +
-      " description: " + req.body.description +
-      " start: " + req.body.start +
-      " end: " + req.body.end)
+  log('CREATE: publish: ' + req.body.publish +
+      ' title: ' + req.body.title +
+      ' description: ' + req.body.description +
+      ' start: ' + req.body.start +
+      ' end: ' + req.body.end)
   Event.create({
     publish: req.body.publish,
     title: req.body.title,
     description: req.body.description
   })
-  .then(function(event) {
-    return createEventDate(req.body.start,
-                           req.body.end,
-                           event.id);
-  })
-  .then(res.redirect("back"));
+    .then(function (event) {
+      return createEventDate(req.body.start,
+        req.body.end,
+        event.id)
+    })
+    .then(res.redirect('back'))
 }
 
-function destroyEvent(req, res) {
-  log(req.params);
-  Event.destroy({
-    where: {
-      id: req.params.event_id
-    }
+function getAllEvents (req, res) {
+  Event.findAll({
+    attributes: ['id', 'publish', 'title']
   })
-  .then(log.debug("deleted "+ req.params.event_id))
-  .then(res.redirect("back"));
+    .then((data) => {
+      return res.send(data)
+    })
+    .catch(function (err) {
+      log.error(err)
+      throw err
+    })
 }
 
-function getEvent(req, res) {
+
+function getEvent (req, res) {
   Event.findOne({
     where: {
-      id: req.params.event_id
+      id: req.params.eventID
     }
   })
-  .then((data) => {
-    res.send(data);
-  });
+    .then((data) => {
+      res.send(data)
+    })
 }
 
-module.exports = function(db) {
-  var router = express.Router();
+function destroyEvent (req, res) {
+  // TODO check for delete permission
+  log('destroy')
+  Event.destroy({
+    where: {
+      id: req.params.eventID
+    }
+  })
+    .then(log.debug('deleted ' + req.params.eventID))
+    .then(res.redirect('back'))
+}
 
-  Event = db.sequelize.models.Event;
-  EventDate = db.sequelize.models.EventDate;
+module.exports = function (db) {
+  var router = express.Router()
 
-  router.get("/", getAPIdescription);
-  router.post("/", createEvent);
-  router.get("/:event_id(\\d+)", getEvent);
-  router.post("/:event_id/destroy", destroyEvent);
+  Event = db.models.Event
+  EventDate = db.models.EventDate
 
-  return router;
+  if (global.developerMode) {
+    router.get('/', getAPIdescription)
+    router.get('/all', getAllEvents)
+  }
+
+  router.post('/', createEvent)
+  router.get('/:eventID(\\d+)', getEvent)
+  router.delete('/:eventID(\\d+)', destroyEvent)
+
+  return router
 }

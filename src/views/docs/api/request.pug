@@ -1,0 +1,22 @@
+extends ../../header/docs
+
+block api_list_elements
+  li /request/
+  ul
+    li POST /request/ to create an event, requiring:
+    ul
+      li title {string, notNull}
+      li description {string}
+      li publish {bool, notNull}
+      li startDate {date, notNull}
+      li endDate {date, notNull}
+      li type {notNull, one of the predefined values}
+    li GET /request/:ID to receive a request by its ID
+    li PUT /request/:ID to update a request
+    ul
+      li passing the same information as needed for a POST
+    li DELETE /request/:ID to delete a request
+  li /request/type
+  ul
+    li GET /request/type to receive all request types
+    li GET /request/type/:ID to receive an event type by its ID
