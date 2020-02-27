@@ -1,9 +1,22 @@
-extends header
+extends ../../header/docs
 
-block api
+block api_list_elements
+  li /event/
   ul
-    li POST to /event/ or /event/create to create an event
-    li Read events by ID via GET from /event/:ID
-    li Destroy events via POST to /event/:ID/destroy
-    li GET all event types from /event/type
-    li GET one event type from /event/type/:ID
+    li POST /event/ to create an event, requiring:
+    ul
+      li title {string, notNull}
+      li description {string}
+      li publish {bool, notNull}
+      li startDate {date, notNull}
+      li endDate {date, notNull}
+      li type {notNull, one of the predefined values}
+    li GET /event/:ID to receive an event by its ID
+    li PUT /event/:ID to update an event
+    ul
+      li passing the same information as needed for a POST
+    li DELETE /event/:ID to delete an event
+  li /event/type
+  ul
+    li GET /event/type to receive all event types
+    li GET /event/type/:ID to receive an event type by its ID
