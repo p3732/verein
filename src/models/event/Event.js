@@ -16,7 +16,7 @@ module.exports = function (sequelize, DataTypes) {
   })
 
   Event.associate = function (models) {
-    Event.belongsTo(models.EventType, { as: 'type' })
+    Event.belongsTo(models.EventType, { as: 'type', allowNull: false })
     Event.belongsTo(models.Request, { as: 'request' })
   }
 
