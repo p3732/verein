@@ -1,0 +1,13 @@
+extends ../../header/docs
+
+mixin subapi(name)
+  li
+    a(href=name)
+      |  /api/#{name}/
+    |  lists all #{name} related API
+
+block api_list_elements
+  +subapi("contact")
+  +subapi("event")
+  +subapi("request")
+  +subapi("resource")
