@@ -9,18 +9,20 @@ module.exports = function createScheme (sequelize, DataTypes) {
 
     // (in n reservations)
     // (in n events)
-    // out state
+    // out acceptedBy (person who allowed request creation)
     // out organizer
     // out organisation
-    // out acceptedBy (person who allowed request creation)
+    // out state
+    // out type
     // # managers (people taking care of request)
   })
 
   Request.associate = function (models) {
-    Request.belongsTo(models.RequestState, { as: 'state', allowNull: false })
+    Request.belongsTo(models.Contact, { as: 'acceptedBy' }) // TODO allowNull: false ?
     Request.belongsTo(models.Contact, { as: 'organizer', allowNull: false })
     Request.belongsTo(models.ContactGroup, { as: 'organisation', allowNull: false })
-    Request.belongsTo(models.Contact, { as: 'acceptedBy' }) // TODO allowNull: false ?
+    Request.belongsTo(models.RequestState, { as: 'state', allowNull: false })
+    Request.belongsTo(models.RequestType, { as: 'type', allowNull: false })
     Request.belongsToMany(models.Contact, { through: 'RequestManager', as: 'managers' })
   }
 
