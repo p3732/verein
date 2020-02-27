@@ -7,7 +7,7 @@ const path = require('path')
 
 /** Routes all definitions made in the given @param file to the given @param route. */
 function routeFile (file, route, router, db) {
-  log('routing ' + file + ' to ' + route)
+  log('routing ' + route)
   const subRouter = require('' + file)(db)
   router.use(route, subRouter)
 }
@@ -21,13 +21,11 @@ function routeFile (file, route, router, db) {
  * @param currentFolder the folder currently in
  */
 function routeRecursive (folder, routePath, router, db) {
-  log.indent()
   fs.readdirSync(folder)
     .forEach(function (file) {
       var currentFile = path.join(folder, file)
 
       if (fs.lstatSync(currentFile).isDirectory()) {
-        log('entering ' + file)
         routeRecursive(currentFile, routePath + file + '/', router, db)
       } else if (file.endsWith('.js')) {
         var route
@@ -43,7 +41,6 @@ function routeRecursive (folder, routePath, router, db) {
         routeFile(currentFile, route, router, db)
       } // else ignore
     })
-  log.undent()
 }
 
 function create404 (req, res, next) {
@@ -86,7 +83,7 @@ function init (db) {
     router.use(bodyParser.urlencoded({ extended: false, limit: '10mb' }))
 
     // route
-    log('setting up /api')
+    log('setting up api')
     routeRecursive(apiFolder, '/api/', router, db)
     log('setting up static content')
     router.use('/', express.static(staticFolder))
