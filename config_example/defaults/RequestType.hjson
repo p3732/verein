@@ -1,0 +1,13 @@
+{ /** List of all different request types. */
+  selectors: [ 'title' ]
+  values: [
+    { title: 'event' }
+    { title: 'stand' }
+    { title: 'equipmentRental' }
+    { title: 'bigExternalParty' }
+    { title: 'blocker' }
+    { title: 'sleepover' }
+    { title: 'catering' }
+    { title: 'other' }
+  ]
+}
