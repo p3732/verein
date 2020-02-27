@@ -84,7 +84,7 @@ async function createDefaultValues (models, conf) {
 async function syncSchemes (sequelize) {
   try {
     log('syncing models')
-    await sequelize.sync({ force: true }) // {force:true} //force deletes existing entries
+    await sequelize.sync() // {force:true} //force deletes existing entries
   } catch (err) {
     throw new Error('Could not synchronize database: ' + err)
   };
