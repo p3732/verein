@@ -60,4 +60,4 @@ Explore database schema
 -----------------------
 A nice way to look explore the database schema, is to use [SQL Schema Explorer](https://github.com/timabell/schema-explorer).
 Here is a reference picture:
-![Database Schema Image] (docs/img/database_schema.png)
+![Database Schema Image](docs/img/database_schema.png)
