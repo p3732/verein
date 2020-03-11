@@ -95,7 +95,7 @@ function init (db) {
     router.use(errorHandler)
     log.info('routing set up')
   } catch (err) {
-    log.error('error occured during routing: ' + err)
+    throw new Error('Error occured during routing: ' + err)
   };
 
   return router

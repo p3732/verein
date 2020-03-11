@@ -56,7 +56,6 @@ function getAllEvents (req, res) {
     })
 }
 
-
 function getEvent (req, res) {
   Event.findOne({
     where: {
@@ -70,14 +69,18 @@ function getEvent (req, res) {
 
 function destroyEvent (req, res) {
   // TODO check for delete permission
-  log('destroy')
-  Event.destroy({
-    where: {
-      id: req.params.eventID
-    }
-  })
-    .then(log.debug('deleted ' + req.params.eventID))
-    .then(res.redirect('back'))
+  try {
+    Event.destroy({
+      where: {
+        id: req.params.eventID
+      }
+    })
+      .then(log.debug('deleted ' + req.params.eventID))
+      .then(res.send('OK'))
+  } catch (err) {
+    log.warn('received invalid delete request:' + err)
+    res.send('FAIL')
+  }
 }
 
 module.exports = function (db) {

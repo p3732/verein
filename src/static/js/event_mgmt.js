@@ -1,15 +1,21 @@
-$('button.deleteButton').
+$(function () {
+  $('.deleteButton').click(deleteEvent)
+})
+
+function deleteEvent () {
+  let button = $(this)
+  let id = button.attr('id')
+
   $.ajax({
-    url: '/v1/object/3.json',
-    method: 'DELETE',
-    contentType: 'application/json',
+    url: '/api/event/' + id,
+    type: 'DELETE',
     success: function(result) {
-        // handle success
+      //remove li
+      button.parent().remove()
     },
     error: function(request,msg,error) {
-        // handle failure
+      console.log('oh no')
+      console.log(error)
     }
   });
 }
-
-window.addEventListener('load', start)

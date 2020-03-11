@@ -7,7 +7,7 @@ module.exports = function (sequelize, DataTypes) {
     description: DataTypes.TEXT,
 
     // whether this should be published on the website calendar
-    publish: { type: DataTypes.BOOLEAN, allowNull: false }
+    publish: { type: DataTypes.BOOLEAN, allowNull: false}//, validate: { isIn: [[true, false]] } }
 
     // (in n event dates)
     // TODO (in 1 promotion)

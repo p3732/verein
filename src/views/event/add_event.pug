@@ -1,5 +1,9 @@
 extends ../header/generic
 
+block scripts
+  script(src='/js/jquery-3.4.1.min.js')
+  script(src='/js/event_mgmt.js')
+
 block content
   h1= title
 
@@ -29,7 +33,7 @@ block content
     - console.log('pug ' + JSON.stringify(event))
     li
       a(href='/api/event/' + event.id)= event.title
-      button(class='deleteButton')
+      button(class='deleteButton', id=event.id)
         | Delete
 
 
